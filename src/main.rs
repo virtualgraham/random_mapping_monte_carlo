@@ -171,15 +171,18 @@ fn run_search(args: SearchArgs) {
         let mapping = RandomMapping::new(mapping_size);
         let treasure = mapping.value_at_depth(rng(mapping_size), args.treasure_depth);
 
+        let mut p = 0f64;
+
         for _ in 0..args.iterations {
             if mapping.search_to_depth(rng(mapping_size), treasure, args.search_depth) {
-                return 1f64/(args.rounds as f64)
+                p = 1f64/(args.rounds as f64);
+                break
             }
         }
 
         spinner.lock().unwrap().message(format!("{:.2}% Complete", (counter.fetch_add(1, Ordering::SeqCst) as f64)/(args.rounds as f64) * 100f64));
-
-        return 0f64
+        
+        return p
 
     }).sum();
 
