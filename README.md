@@ -1,6 +1,6 @@
 # Random Mapping Monte Carlo
 
-Runs monte carlo simulations to study iterativley calling random mapping functions.
+Runs multi-threaded monte carlo simulations to study entropy loss caused by iterativley calling random mapping functions.
 
 `mapping_size_bits`: The log2 size of the set being randomly mapped. 
 
@@ -8,7 +8,7 @@ Runs monte carlo simulations to study iterativley calling random mapping functio
 
 `iterations`: The number of times to repeat the depth mapping per instance of a random mapping function. Rule of thumb is at least 50 * 2^mapping_size_bits to 100 * 2^mapping_size_bits.
 
-`rounds`: The number of random mapping functions to generate and iterate. Generally 1000 to 10000, unless computationally infeasable. 
+`rounds`: The number of random mapping functions to generate and iterate. Generally 1000 to 10000, unless resource bound. 
 
 
 ```
