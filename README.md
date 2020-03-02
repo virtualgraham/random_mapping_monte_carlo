@@ -16,3 +16,5 @@ Both commands genrate a random mapping of integers [0, 2^mapping_size_bits) -> [
 
 ./random_mapping_monte_carlo entropy 7 5 10000 10000
 > 4.993751745581513
+
+For related work see [Collision Attacks based on the Entropy Loss caused by Random Functions - Andrea Ro ̈ck](https://www.rocq.inria.fr/secret/Andrea.Roeck/pdfs/wework_randFct.pdf)
