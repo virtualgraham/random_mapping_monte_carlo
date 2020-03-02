@@ -23,9 +23,9 @@ impl RandomMapping {
         }
     }
 
-    fn value_at(&self, x: usize) -> usize {
-        return self.mapping[x]
-    }
+    // fn value_at(&self, x: usize) -> usize {
+    //     return self.mapping[x]
+    // }
 
     fn value_at_depth(&self, x: usize, depth: u32) -> usize {
         let mut v = x;
