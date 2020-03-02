@@ -8,9 +8,11 @@ SUBCOMMANDS:
     search <mapping_size_bits> <treasure_depth> <search_depth> <iterations> <rounds>
 ```
 
-`entropy` returns the estimated entropy of the output space of the random mapping given the params
+Both commands genrate a random mapping of size 2^mapping_size_bits -> 2^mapping_size_bits. 
 
-`search` returns the percent of rounds where the treasure value was found while searching
+`entropy` Returns the estimated entropy of the output space of the random mapping when iterated to the given depth.
+
+`search` First this picks a value by selecting a random start point and iterating to the treasure depth. Then is searches for that value (treasure) while iterating to the search depth (search_depth) multiple times (iterations). It returns the percent of rounds where the treasure value was found while searching.
 
 ./random_mapping_monte_carlo entropy 7 5 10000 10000
 > 4.993751745581513
