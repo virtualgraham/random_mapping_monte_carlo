@@ -8,7 +8,7 @@ SUBCOMMANDS:
     search <mapping_size_bits> <treasure_depth> <search_depth> <iterations> <rounds>
 ```
 
-Both commands genrate a random mapping of size 2^mapping_size_bits -> 2^mapping_size_bits. 
+Both commands genrate a random mapping of integers [0, 2^mapping_size_bits) -> [0, 2^mapping_size_bits). 
 
 `entropy` Returns the estimated entropy of the output space of the random mapping when iterated to the given depth.
 

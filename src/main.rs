@@ -1,6 +1,9 @@
 use std::env;
 use rayon::prelude::*;
 use random_fast_rng::{Random, local_rng};
+use std::sync::atomic::{AtomicU32, Ordering};
+use std::sync::{Arc, Mutex};
+use spinners::{Spinner, Spinners};
 
 // size is a power of 2
 fn rng(mapping_size: usize) -> usize {
@@ -45,7 +48,7 @@ impl RandomMapping {
 }
 
 
-fn get_entrophy(counts: &Vec<u64>) -> f64 {
+fn get_entropy(counts: &Vec<u64>) -> f64 {
     let sum:u64 = counts.iter().map(|v| *v).sum();
 
     counts.iter().map(|v| {
@@ -156,6 +159,10 @@ fn parse_args() -> Args {
 
 fn run_search(args: SearchArgs) {
     println!("{:?}", args);
+    println!("");
+
+    let counter = Arc::new(AtomicU32::new(0));
+    let spinner = Arc::new(Mutex::new(Spinner::new(Spinners::Dots9, "0% Complete".into())));
 
     let mapping_size = 2usize.pow(args.mapping_size_bits);
 
@@ -170,10 +177,15 @@ fn run_search(args: SearchArgs) {
             }
         }
 
+        spinner.lock().unwrap().message(format!("{:.2}% Complete", (counter.fetch_add(1, Ordering::SeqCst) as f64)/(args.rounds as f64) * 100f64));
+
         return 0f64
 
     }).sum();
 
+    //spinner.lock().unwrap().stop();
+
+    println!("");
     println!("{}%", avg_found*100f64);
 }
 
@@ -181,6 +193,10 @@ fn run_search(args: SearchArgs) {
 fn run_entropy(args: EntropyArgs) {
     
     println!("{:?}", args);
+    println!("");
+
+    let counter = Arc::new(AtomicU32::new(0));
+    let spinner = Arc::new(Mutex::new(Spinner::new(Spinners::Dots9, "0% Complete".into())));
 
     let mapping_size = 2usize.pow(args.mapping_size_bits);
 
@@ -195,10 +211,15 @@ fn run_entropy(args: EntropyArgs) {
             counts[v] += 1;
         }
 
-        (1f64/(args.rounds as f64)) * get_entrophy(&counts)
+        spinner.lock().unwrap().message(format!("{:.2}% Complete", (counter.fetch_add(1, Ordering::SeqCst) as f64)/(args.rounds as f64) * 100f64 ));
+
+        (1f64/(args.rounds as f64)) * get_entropy(&counts)
 
     }).sum();
 
+    //spinner.lock().unwrap().stop();
+
+    println!("");
     println!("{}", avg_entropy);
 
 }
