@@ -26,7 +26,7 @@ impl RandomMapping {
 
     fn value_at_depth(&self, x: usize, depth: u32) -> usize {
         let mut v = x;
-        for _ in 0..depth-1 {
+        for _ in 0..depth {
             v = self.mapping[v];
         }
         v
@@ -34,9 +34,9 @@ impl RandomMapping {
 
     fn search_to_depth(&self, x: usize, y:usize, depth: u32) -> bool {
         let mut v = x;
-        if v == y { return true }
+        // if v == y { return true } // ????
 
-        for _ in 0..depth-1 {
+        for _ in 0..depth {
             v = self.mapping[v];
             if v == y { return true }
         }
@@ -166,7 +166,7 @@ fn run_search(args: SearchArgs) {
 
         for _ in 0..args.iterations {
             if mapping.search_to_depth(rng(mapping_size), treasure, args.search_depth) {
-                return 1f64/(args.iterations as f64)
+                return 1f64/(args.rounds as f64)
             }
         }
 
@@ -174,7 +174,7 @@ fn run_search(args: SearchArgs) {
 
     }).sum();
 
-    println!("{}", avg_found);
+    println!("{}%", avg_found*100f64);
 }
 
 
